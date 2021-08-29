@@ -1,16 +1,124 @@
 import React from 'react';
-import { Provider } from 'react-native-paper'
+import {  Provider } from 'react-native-paper'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { theme } from './src/core/theme'
 import { StartScreen, 
   LoginScreen,
   RegisterScreen,
   Dashboard,
-  ResetPasswordScreen
+  ResetPasswordScreen,
+  Aboutus
  }  from './src/screens'
+import { Image, TouchableOpacity, View } from 'react-native';
+
 
 const Stack = createStackNavigator()
+const Drawer = createDrawerNavigator();
+
+
+
+const NavigationDrawerStructure = (props) => {
+  //Structure for the navigatin Drawer
+  const toggleDrawer = () => {
+    //Props to open/close the drawer
+    props.navigationProps.toggleDrawer();
+  };
+
+  return (
+    <View style={{flexDirection: 'row'}}>
+      <TouchableOpacity onPress={toggleDrawer}>
+        {/*Donute Button Image */}
+        <Image
+          source={{
+            uri:
+              'https://raw.githubusercontent.com/AboutReact/sampleresource/master/drawerWhite.png',
+          }}
+          style={{width: 25, height: 25, marginLeft: 15, marginTop:3}}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+
+  const DashboardDrawer = () => {
+    return (
+      <Drawer.Navigator>
+        <Drawer.Screen
+          name="Dashboard"
+          options={{
+            headerShown:false,}}
+          component={ DashboardScreenStack }
+        />
+        <Drawer.Screen
+          name="Aboutus"
+          options={{headerShown:false,
+          swipeEnabled: false
+          }}
+          component={ AboutUsScreenStack }
+        />
+      </Drawer.Navigator>
+    );
+  };
+
+
+
+
+
+const AboutUsScreenStack = ({navigation}) => {
+  return (
+    <Stack.Navigator initialRouteName="Aboutus">
+      <Stack.Screen
+        name="Aboutus"
+        component={ Aboutus }
+        options={{
+          title: 'Aboutus', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#f4511e', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+
+const DashboardScreenStack = ({navigation}) => {
+  return (
+    <Stack.Navigator initialRouteName="Dashboard">
+      <Stack.Screen
+        name="Dashboard"
+        component={ Dashboard }
+        options={{
+          title: 'Home', //Set Header Title
+          headerLeft: () => (
+            <NavigationDrawerStructure
+              navigationProps={navigation}
+            />
+          ),
+          headerStyle: {
+            backgroundColor: '#f4511e', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+     
+    </Stack.Navigator>
+  );
+};
+
+
+
+
 
 export default function App() {
   return (
@@ -20,12 +128,15 @@ export default function App() {
           initialRouteName="StartScreen"
           screenOptions={{
             headerShown: false,
-          }}
+           }}
         >
-           <Stack.Screen name="StartScreen" component={StartScreen} />
+            
+          <Stack.Screen name="StartScreen" component={StartScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-          <Stack.Screen name="Dashboard" component={Dashboard} />
+          <Stack.Screen name="Dashboard" component={ DashboardDrawer } />
+          <Stack.Screen name="Aboutus" component={ Aboutus } />
+
           <Stack.Screen
             name="ResetPasswordScreen"
             component={ResetPasswordScreen}
@@ -36,3 +147,5 @@ export default function App() {
   );
 }
 
+//https://dev.to/easybuoy/combining-stack-tab-drawer-navigations-in-react-native-with-react-navigation-5-da
+//https://aboutreact.com/switch-screen-out-of-the-navigation-drawer-in-react-native/

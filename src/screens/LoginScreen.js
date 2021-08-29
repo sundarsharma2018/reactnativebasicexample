@@ -27,6 +27,8 @@ export default function LoginScreen({ navigation }) {
       index: 0,
       routes: [{ name: 'Dashboard' }],
     })
+
+    //navigation.replace('Dashboard')
   }
 
   return (
