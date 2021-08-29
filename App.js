@@ -11,7 +11,8 @@ import { StartScreen,
   ResetPasswordScreen,
   Aboutus
  }  from './src/screens'
-import { Image, TouchableOpacity, View } from 'react-native';
+import { Button, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import BackButton from './src/components/BackButton';
 
 
 const Stack = createStackNavigator()
@@ -43,19 +44,50 @@ const NavigationDrawerStructure = (props) => {
 };
 
 
+const NavigationDrawerStructureBack = (props) => {
+  //Structure for the navigatin Drawer
+  const toggleDrawer = () => {
+    //Props to open/close the drawer
+    props.navigationProps.goBack();
+  };
+
+  return (
+    <View style={{flexDirection: 'row'}}>
+      <TouchableOpacity onPress={toggleDrawer}>
+        {/*Donute Button Image */}
+        <Image
+          source=
+            {require('./src/assets/arrow_back.png')}
+          style={{width: 30, height: 25, marginLeft: 15, marginTop:3}}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+
   const DashboardDrawer = () => {
     return (
       <Drawer.Navigator>
         <Drawer.Screen
           name="Dashboard"
           options={{
+            
             headerShown:false,}}
           component={ DashboardScreenStack }
         />
         <Drawer.Screen
           name="Aboutus"
+          
           options={{headerShown:false,
-          swipeEnabled: false
+          swipeEnabled: false,
+          drawerIcon: ({ tintColor }) => (
+            <Image
+              source={require('./src/assets/arrow_back.png')}
+              style={[styles.icon, { tintColor: tintColor }]}
+            />
+          ), 
+         
           }}
           component={ AboutUsScreenStack }
         />
@@ -73,7 +105,7 @@ const AboutUsScreenStack = ({navigation}) => {
       <Stack.Screen
         name="Aboutus"
         component={ Aboutus }
-        options={{
+        options={{  
           title: 'Aboutus', //Set Header Title
           headerStyle: {
             backgroundColor: '#f4511e', //Set Header color
@@ -82,6 +114,16 @@ const AboutUsScreenStack = ({navigation}) => {
           headerTitleStyle: {
             fontWeight: 'bold', //Set Header text style
           },
+          
+         // headerLeft: <BackButton goBack={ navigation.goBack} />
+
+         headerLeft: () => (
+          <NavigationDrawerStructureBack
+            navigationProps={navigation}
+          />
+        ),
+          
+      
         }}
       />
     </Stack.Navigator>
@@ -128,14 +170,21 @@ export default function App() {
           initialRouteName="StartScreen"
           screenOptions={{
             headerShown: false,
+            headerBackTitleVisible: false,
+            headerBackImage: ()=>(<MaterialCommunityIcons name='arrow-left' />),
+            // headerBackTitleVisible: true,
+            // headerBackImage: ()=>(<MaterialCommunityIcons name='arrow-left' />),
            }}
         >
             
           <Stack.Screen name="StartScreen" component={StartScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-          <Stack.Screen name="Dashboard" component={ DashboardDrawer } />
-          <Stack.Screen name="Aboutus" component={ Aboutus } />
+          <Stack.Screen name="Dashboard" component={ DashboardDrawer }
+ />
+          <Stack.Screen name="Aboutus" component={ Aboutus } 
+       
+                    />
 
           <Stack.Screen
             name="ResetPasswordScreen"
@@ -146,6 +195,14 @@ export default function App() {
     </Provider>
   );
 }
+
+
+const styles = StyleSheet.create({
+  icon: {
+    width: 24,
+    height: 24,
+  },
+});
 
 //https://dev.to/easybuoy/combining-stack-tab-drawer-navigations-in-react-native-with-react-navigation-5-da
 //https://aboutreact.com/switch-screen-out-of-the-navigation-drawer-in-react-native/
