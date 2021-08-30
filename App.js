@@ -12,12 +12,22 @@ import { StartScreen,
   Aboutus
  }  from './src/screens'
 import { Button, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import BackButton from './src/components/BackButton';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Icon } from "react-native-elements";
 
 
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator();
+const Tab = createMaterialTopTabNavigator();
 
+
+function ActionBarIcon() {
+  return (
+    <Image
+    source={{uri : 'https://secure.gravatar.com/avatar/dbbab0050db2dbd84d4e2c844196ee0c?s=60&d=mm&r=g'}}
+    style={{ width: 40, height: 40, borderRadius: 40/2, marginLeft : 15 }} />
+  );
+}
 
 
 const NavigationDrawerStructure = (props) => {
@@ -45,16 +55,13 @@ const NavigationDrawerStructure = (props) => {
 
 
 const NavigationDrawerStructureBack = (props) => {
-  //Structure for the navigatin Drawer
   const toggleDrawer = () => {
-    //Props to open/close the drawer
     props.navigationProps.goBack();
   };
 
   return (
     <View style={{flexDirection: 'row'}}>
       <TouchableOpacity onPress={toggleDrawer}>
-        {/*Donute Button Image */}
         <Image
           source=
             {require('./src/assets/arrow_back.png')}
@@ -114,8 +121,6 @@ const AboutUsScreenStack = ({navigation}) => {
           headerTitleStyle: {
             fontWeight: 'bold', //Set Header text style
           },
-          
-         // headerLeft: <BackButton goBack={ navigation.goBack} />
 
          headerLeft: () => (
           <NavigationDrawerStructureBack
@@ -130,6 +135,40 @@ const AboutUsScreenStack = ({navigation}) => {
   );
 };
 
+
+
+
+const AboutUsScreenStackTopTab = ({navigation}) => {
+  return (
+    <Stack.Navigator initialRouteName="Aboutus">
+      <Stack.Screen
+        name="Aboutus"
+        component={ Aboutus }
+        options={{
+          headerShown:false
+        }}
+        // options={{  
+        //   title: 'Aboutus', //Set Header Title
+        //   headerStyle: {
+        //     backgroundColor: '#f4511e', //Set Header color
+        //   },
+        //   headerTintColor: '#fff', //Set Header text color
+        //   headerTitleStyle: {
+        //     fontWeight: 'bold', //Set Header text style
+        //   },
+
+        //  headerLeft: () => (
+        //   <NavigationDrawerStructureBack
+        //     navigationProps={navigation}
+        //   />
+        // ),
+          
+      
+        // }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 const DashboardScreenStack = ({navigation}) => {
   return (
@@ -160,6 +199,64 @@ const DashboardScreenStack = ({navigation}) => {
 
 
 
+const DashboardScreenStackTopTab = ({navigation}) => {
+  return (
+    <Stack.Navigator initialRouteName="Dashboard">
+      <Stack.Screen
+        name="Dashboard"
+        
+        options={{
+          headerShown:false
+        }}
+        component={ Dashboard }
+        // options={{
+        //   title: 'Home', //Set Header Title
+        //   headerLeft: () => (
+        //     <NavigationDrawerStructure
+        //       navigationProps={navigation}
+        //     />
+        //   ),
+        //   headerStyle: {
+        //     backgroundColor: '#f4511e', //Set Header color
+        //   },
+        //   headerTintColor: '#fff', //Set Header text color
+        //   headerTitleStyle: {
+        //     fontWeight: 'bold', //Set Header text style
+        //   },
+        // }}
+      />
+     
+    </Stack.Navigator>
+  );
+};
+
+
+
+
+
+
+
+const DashboardTopTab = () => {
+  return (
+    <Tab.Navigator
+    tabBarOptions={{
+      activeTintColor: 'orange',
+      keyboardHidesTabBar: true,
+    }}
+    
+    initialRouteName="Data">
+    
+      <Tab.Screen
+        name="Dashboard"
+        component={ DashboardScreenStackTopTab }
+      />
+      <Tab.Screen
+        name="Aboutus"
+        component={ AboutUsScreenStackTopTab }
+      />
+    </Tab.Navigator>
+  );
+};
 
 
 export default function App() {
@@ -170,22 +267,34 @@ export default function App() {
           initialRouteName="StartScreen"
           screenOptions={{
             headerShown: false,
-            headerBackTitleVisible: false,
-            headerBackImage: ()=>(<MaterialCommunityIcons name='arrow-left' />),
-            // headerBackTitleVisible: true,
-            // headerBackImage: ()=>(<MaterialCommunityIcons name='arrow-left' />),
-           }}
-        >
-            
+           }}>
           <Stack.Screen name="StartScreen" component={StartScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-          <Stack.Screen name="Dashboard" component={ DashboardDrawer }
- />
-          <Stack.Screen name="Aboutus" component={ Aboutus } 
-       
-                    />
-
+          <Stack.Screen name="Dashboard" component={ DashboardTopTab }  options={{
+          title: 'Home', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#f4511e', //Set Header color            
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+          },
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerRight : (
+          <View style={styles.iconContainer}>
+            
+          <Icon type="ionicon" name={Platform.OS === "ios" ? "ios-search" : "md-search"} />
+          <Icon type="ionicon" name={Platform.OS === "ios" ? "ios-heart" : "md-heart"} />
+          <Icon type="ionicon" name={Platform.OS === "ios" ? "ios-more" : "md-more"} /> 
+          </View>
+          ),
+          headerLeft : props => <ActionBarIcon {...props} />,
+          
+           }}
+            />
+          <Stack.Screen name="Aboutus" component={ Aboutus } />
           <Stack.Screen
             name="ResetPasswordScreen"
             component={ResetPasswordScreen}
@@ -193,6 +302,29 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
+
+
+
+
+    // <Provider theme={theme}>
+    //   <NavigationContainer>
+    //     <Stack.Navigator
+    //       initialRouteName="StartScreen"
+    //       screenOptions={{
+    //         headerShown: false,
+    //        }}>
+    //       <Stack.Screen name="StartScreen" component={StartScreen} />
+    //       <Stack.Screen name="LoginScreen" component={LoginScreen} />
+    //       <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+    //       <Stack.Screen name="Dashboard" component={ DashboardDrawer }/>
+    //       <Stack.Screen name="Aboutus" component={ Aboutus }/>
+    //       <Stack.Screen
+    //         name="ResetPasswordScreen"
+    //         component={ResetPasswordScreen}
+    //       />
+    //     </Stack.Navigator>
+    //   </NavigationContainer>
+    // </Provider>
   );
 }
 
@@ -202,7 +334,22 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
   },
+  container: {
+    flex: 1
+  },
+  icons: {
+    paddingLeft: 10
+  },
+  iconContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    width: 120
+  }
 });
+
+
+
 
 //https://dev.to/easybuoy/combining-stack-tab-drawer-navigations-in-react-native-with-react-navigation-5-da
 //https://aboutreact.com/switch-screen-out-of-the-navigation-drawer-in-react-native/
+//https://stackoverflow.com/questions/53412278/how-to-implement-custom-header-icons-within-a-nested-stacknavigator
