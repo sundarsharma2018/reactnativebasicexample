@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Provider } from 'react-native-paper'
+import {  Appbar, Provider } from 'react-native-paper'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -20,6 +20,10 @@ const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator();
 const Tab = createMaterialTopTabNavigator();
 
+
+const ShareButton = () =>{
+
+}
 
 function ActionBarIcon() {
   return (
@@ -282,14 +286,52 @@ export default function App() {
           },
           headerShown: true,
           headerTitleAlign: 'center',
-          headerRight : (
-          <View style={styles.iconContainer}>
+          headerRight: () => {
+            return (
+              <View style={styles.buttonStyleContainer}>
+              
+              <View style={styles.button} >
+              <Button
+               title={"Pause"}
+               onPress={() => {
+                 this.setState({ paused: true });
+               }}
+                color="#841584"
+              />
+              </View>
+
+
+              <View style={styles.button} >
+                <Button
+                   title={"Play"}
+                   onPress={() => {
+                  this.setState({ paused: false });
+               }}
+               color="green"
+             />
+             </View>
+  
+           </View>
+       
+            // <Button
+            //   title="Setting"
+            //   onPress={() => navigation.navigate('ProfileScreenEdit')}
+            //   backgroundColor="rgba(0,0,0,0)"
+            //   color="rgba(0,122,255,1)"
+            // />,
             
-          <Icon type="ionicon" name={Platform.OS === "ios" ? "ios-search" : "md-search"} />
-          <Icon type="ionicon" name={Platform.OS === "ios" ? "ios-heart" : "md-heart"} />
-          <Icon type="ionicon" name={Platform.OS === "ios" ? "ios-more" : "md-more"} /> 
-          </View>
-          ),
+
+            // <Button
+            //   title="Hello"
+            //   onPress={() => navigation.navigate('ProfileScreenEdit')}
+            //   backgroundColor="rgba(0,0,0,0)"
+            //   color="rgba(0,122,255,1)"
+            // />
+            );
+           
+          
+          },
+        
           headerLeft : props => <ActionBarIcon {...props} />,
           
            }}
@@ -344,6 +386,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     width: 120
+  },
+  buttonContainer: {
+    flex: 1,
+  },
+  buttonStyleContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+   },
+   button: {
+     marginEnd:5,
+     backgroundColor: 'green'
   }
 });
 
@@ -353,3 +408,4 @@ const styles = StyleSheet.create({
 //https://dev.to/easybuoy/combining-stack-tab-drawer-navigations-in-react-native-with-react-navigation-5-da
 //https://aboutreact.com/switch-screen-out-of-the-navigation-drawer-in-react-native/
 //https://stackoverflow.com/questions/53412278/how-to-implement-custom-header-icons-within-a-nested-stacknavigator
+//https://aboutreact.com/react-native-bottom-sheet/
