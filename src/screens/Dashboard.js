@@ -31,22 +31,24 @@ export default function Dashboard({ navigation }) {
       </Paragraph>
       <Button
         mode="outlined"
-
-
-        onPress={toggleBottomNavigationView}
-        //on Press of the button bottom sheet will be visible
-        title="Show Bottom Sheet"
-        // onPress={() =>
-        //   navigation.reset({
-        //     index: 0,
-        //     routes: [{ name: 'StartScreen' }],
-        //   })
-        // }
+        onPress={() =>
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'StartScreen' }],
+          })
+        }
       >
         Logout
       </Button>
 
-
+      <Button
+        mode="outlined"
+        onPress={toggleBottomNavigationView}
+        //on Press of the button bottom sheet will be visible
+        title="Show Bottom Sheet"
+      >
+        Bottom Sheet
+      </Button>
       <BottomSheet
           visible={visible}
           //setting the visibility state of the bottom shee

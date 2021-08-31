@@ -1,35 +1,38 @@
 import React from 'react';
-import {  Appbar, Provider } from 'react-native-paper'
+import { Appbar, Provider } from 'react-native-paper'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { theme } from './src/core/theme'
-import { StartScreen, 
+import {
+  StartScreen,
   LoginScreen,
   RegisterScreen,
   Dashboard,
   ResetPasswordScreen,
-  Aboutus
- }  from './src/screens'
+  Aboutus,
+  Profile
+} from './src/screens'
 import { Button, Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { Icon } from "react-native-elements";
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-
+const TabBottom = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator();
 const Tab = createMaterialTopTabNavigator();
 
 
-const ShareButton = () =>{
+const ShareButton = () => {
 
 }
 
 function ActionBarIcon() {
   return (
     <Image
-    source={{uri : 'https://secure.gravatar.com/avatar/dbbab0050db2dbd84d4e2c844196ee0c?s=60&d=mm&r=g'}}
-    style={{ width: 40, height: 40, borderRadius: 40/2, marginLeft : 15 }} />
+      source={{ uri: 'https://secure.gravatar.com/avatar/dbbab0050db2dbd84d4e2c844196ee0c?s=60&d=mm&r=g' }}
+      style={{ width: 40, height: 40, borderRadius: 40 / 2, marginLeft: 15 }} />
   );
 }
 
@@ -42,7 +45,7 @@ const NavigationDrawerStructure = (props) => {
   };
 
   return (
-    <View style={{flexDirection: 'row'}}>
+    <View style={{ flexDirection: 'row' }}>
       <TouchableOpacity onPress={toggleDrawer}>
         {/*Donute Button Image */}
         <Image
@@ -50,7 +53,7 @@ const NavigationDrawerStructure = (props) => {
             uri:
               'https://raw.githubusercontent.com/AboutReact/sampleresource/master/drawerWhite.png',
           }}
-          style={{width: 25, height: 25, marginLeft: 15, marginTop:3}}
+          style={{ width: 25, height: 25, marginLeft: 15, marginTop: 3 }}
         />
       </TouchableOpacity>
     </View>
@@ -64,12 +67,12 @@ const NavigationDrawerStructureBack = (props) => {
   };
 
   return (
-    <View style={{flexDirection: 'row'}}>
+    <View style={{ flexDirection: 'row' }}>
       <TouchableOpacity onPress={toggleDrawer}>
         <Image
           source=
-            {require('./src/assets/arrow_back.png')}
-          style={{width: 30, height: 25, marginLeft: 15, marginTop:3}}
+          {require('./src/assets/arrow_back.png')}
+          style={{ width: 30, height: 25, marginLeft: 15, marginTop: 3 }}
         />
       </TouchableOpacity>
     </View>
@@ -77,46 +80,48 @@ const NavigationDrawerStructureBack = (props) => {
 };
 
 
-  const DashboardDrawer = () => {
-    return (
-      <Drawer.Navigator>
-        <Drawer.Screen
-          name="Dashboard"
-          options={{
-            
-            headerShown:false,}}
-          component={ DashboardScreenStack }
-        />
-        <Drawer.Screen
-          name="Aboutus"
-          
-          options={{headerShown:false,
+const DashboardDrawer = () => {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen
+        name="Dashboard"
+        options={{
+
+          headerShown: false,
+        }}
+        component={DashboardScreenStack}
+      />
+      <Drawer.Screen
+        name="Aboutus"
+
+        options={{
+          headerShown: false,
           swipeEnabled: false,
           drawerIcon: ({ tintColor }) => (
             <Image
               source={require('./src/assets/arrow_back.png')}
               style={[styles.icon, { tintColor: tintColor }]}
             />
-          ), 
-         
-          }}
-          component={ AboutUsScreenStack }
-        />
-      </Drawer.Navigator>
-    );
-  };
+          ),
+
+        }}
+        component={AboutUsScreenStack}
+      />
+    </Drawer.Navigator>
+  );
+};
 
 
 
 
 
-const AboutUsScreenStack = ({navigation}) => {
+const AboutUsScreenStack = ({ navigation }) => {
   return (
     <Stack.Navigator initialRouteName="Aboutus">
       <Stack.Screen
         name="Aboutus"
-        component={ Aboutus }
-        options={{  
+        component={Aboutus}
+        options={{
           title: 'Aboutus', //Set Header Title
           headerStyle: {
             backgroundColor: '#f4511e', //Set Header color
@@ -126,13 +131,13 @@ const AboutUsScreenStack = ({navigation}) => {
             fontWeight: 'bold', //Set Header text style
           },
 
-         headerLeft: () => (
-          <NavigationDrawerStructureBack
-            navigationProps={navigation}
-          />
-        ),
-          
-      
+          headerLeft: () => (
+            <NavigationDrawerStructureBack
+              navigationProps={navigation}
+            />
+          ),
+
+
         }}
       />
     </Stack.Navigator>
@@ -142,44 +147,44 @@ const AboutUsScreenStack = ({navigation}) => {
 
 
 
-const AboutUsScreenStackTopTab = ({navigation}) => {
+const AboutUsScreenStackTopTab = ({ navigation }) => {
   return (
     <Stack.Navigator initialRouteName="Aboutus">
       <Stack.Screen
         name="Aboutus"
-        component={ Aboutus }
+        component={Aboutus}
         options={{
-          headerShown:false
+          headerShown: false
         }}
-        // options={{  
-        //   title: 'Aboutus', //Set Header Title
-        //   headerStyle: {
-        //     backgroundColor: '#f4511e', //Set Header color
-        //   },
-        //   headerTintColor: '#fff', //Set Header text color
-        //   headerTitleStyle: {
-        //     fontWeight: 'bold', //Set Header text style
-        //   },
+      // options={{  
+      //   title: 'Aboutus', //Set Header Title
+      //   headerStyle: {
+      //     backgroundColor: '#f4511e', //Set Header color
+      //   },
+      //   headerTintColor: '#fff', //Set Header text color
+      //   headerTitleStyle: {
+      //     fontWeight: 'bold', //Set Header text style
+      //   },
 
-        //  headerLeft: () => (
-        //   <NavigationDrawerStructureBack
-        //     navigationProps={navigation}
-        //   />
-        // ),
-          
-      
-        // }}
+      //  headerLeft: () => (
+      //   <NavigationDrawerStructureBack
+      //     navigationProps={navigation}
+      //   />
+      // ),
+
+
+      // }}
       />
     </Stack.Navigator>
   );
 };
 
-const DashboardScreenStack = ({navigation}) => {
+const DashboardScreenStack = ({ navigation }) => {
   return (
     <Stack.Navigator initialRouteName="Dashboard">
       <Stack.Screen
         name="Dashboard"
-        component={ Dashboard }
+        component={Dashboard}
         options={{
           title: 'Home', //Set Header Title
           headerLeft: () => (
@@ -196,40 +201,40 @@ const DashboardScreenStack = ({navigation}) => {
           },
         }}
       />
-     
+
     </Stack.Navigator>
   );
 };
 
 
 
-const DashboardScreenStackTopTab = ({navigation}) => {
+const DashboardScreenStackTopTab = ({ navigation }) => {
   return (
     <Stack.Navigator initialRouteName="Dashboard">
       <Stack.Screen
         name="Dashboard"
-        
+
         options={{
-          headerShown:false
+          headerShown: false
         }}
-        component={ Dashboard }
-        // options={{
-        //   title: 'Home', //Set Header Title
-        //   headerLeft: () => (
-        //     <NavigationDrawerStructure
-        //       navigationProps={navigation}
-        //     />
-        //   ),
-        //   headerStyle: {
-        //     backgroundColor: '#f4511e', //Set Header color
-        //   },
-        //   headerTintColor: '#fff', //Set Header text color
-        //   headerTitleStyle: {
-        //     fontWeight: 'bold', //Set Header text style
-        //   },
-        // }}
+        component={Dashboard}
+      // options={{
+      //   title: 'Home', //Set Header Title
+      //   headerLeft: () => (
+      //     <NavigationDrawerStructure
+      //       navigationProps={navigation}
+      //     />
+      //   ),
+      //   headerStyle: {
+      //     backgroundColor: '#f4511e', //Set Header color
+      //   },
+      //   headerTintColor: '#fff', //Set Header text color
+      //   headerTitleStyle: {
+      //     fontWeight: 'bold', //Set Header text style
+      //   },
+      // }}
       />
-     
+
     </Stack.Navigator>
   );
 };
@@ -237,26 +242,55 @@ const DashboardScreenStackTopTab = ({navigation}) => {
 
 
 
-
-
+const BottomNavigator = () => {
+  return (
+    <TabBottom.Navigator
+      initialRouteName="Dashboard"
+      activeColor="#e91e63"
+      barStyle={{ backgroundColor: 'tomato' }}
+    >
+      <TabBottom.Screen
+        name="Dashboard"
+        component={Dashboard}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+      />
+      <TabBottom.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="account" color={color} size={26} />
+          ),
+        
+        }}
+      />
+    </TabBottom.Navigator>
+  );
+}
 
 const DashboardTopTab = () => {
   return (
     <Tab.Navigator
-    tabBarOptions={{
-      activeTintColor: 'orange',
-      keyboardHidesTabBar: true,
-    }}
-    
-    initialRouteName="Data">
-    
+      tabBarOptions={{
+        activeTintColor: 'orange',
+        keyboardHidesTabBar: true,
+      }}
+
+      initialRouteName="Data">
+
       <Tab.Screen
         name="Dashboard"
-        component={ DashboardScreenStackTopTab }
+        component={BottomNavigator}
       />
       <Tab.Screen
         name="Aboutus"
-        component={ AboutUsScreenStackTopTab }
+        component={AboutUsScreenStackTopTab}
       />
     </Tab.Navigator>
   );
@@ -271,76 +305,78 @@ export default function App() {
           initialRouteName="StartScreen"
           screenOptions={{
             headerShown: false,
-           }}>
+          }}>
           <Stack.Screen name="StartScreen" component={StartScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-          <Stack.Screen name="Dashboard" component={ DashboardTopTab }  options={{
-          title: 'Home', //Set Header Title
-          headerStyle: {
-            backgroundColor: '#f4511e', //Set Header color            
-          },
-          headerTintColor: '#fff', //Set Header text color
-          headerTitleStyle: {
-            fontWeight: 'bold', //Set Header text style
-          },
-          headerShown: true,
-          headerTitleAlign: 'center',
-          headerRight: () => {
-            return (
-              <View style={styles.buttonStyleContainer}>
-              
-              <View style={styles.button} >
-              <Button
-               title={"Pause"}
-               onPress={() => {
-                 this.setState({ paused: true });
-               }}
-                color="#841584"
-              />
-              </View>
+          <Stack.Screen name="Dashboard" component={DashboardTopTab} options={{
+            title: 'Home', //Set Header Title
+            headerStyle: {
+              backgroundColor: '#f4511e', //Set Header color            
+            },
+            headerTintColor: '#fff', //Set Header text color
+            headerTitleStyle: {
+              fontWeight: 'bold', //Set Header text style
+            },
+            headerShown: true,
+            headerTitleAlign: 'center',
+            headerRight: () => {
+              return (
+                <View style={styles.buttonStyleContainer}>
+
+                  <View style={styles.button} >
+                    <Button
+                      title={"Pause"}
+                      onPress={() => {
+                        this.setState({ paused: true });
+                      }}
+                      color="#841584"
+                    />
+                  </View>
 
 
-              <View style={styles.button} >
-                <Button
-                   title={"Play"}
-                   onPress={() => {
-                  this.setState({ paused: false });
-               }}
-               color="green"
-             />
-             </View>
-  
-           </View>
-       
-            // <Button
-            //   title="Setting"
-            //   onPress={() => navigation.navigate('ProfileScreenEdit')}
-            //   backgroundColor="rgba(0,0,0,0)"
-            //   color="rgba(0,122,255,1)"
-            // />,
-            
+                  <View style={styles.button} >
+                    <Button
+                      title={"Play"}
+                      onPress={() => {
+                        this.setState({ paused: false });
+                      }}
+                      color="green"
+                    />
+                  </View>
 
-            // <Button
-            //   title="Hello"
-            //   onPress={() => navigation.navigate('ProfileScreenEdit')}
-            //   backgroundColor="rgba(0,0,0,0)"
-            //   color="rgba(0,122,255,1)"
-            // />
-            );
-           
-          
-          },
-        
-          headerLeft : props => <ActionBarIcon {...props} />,
-          
-           }}
-            />
-          <Stack.Screen name="Aboutus" component={ Aboutus } />
+                </View>
+
+                // <Button
+                //   title="Setting"
+                //   onPress={() => navigation.navigate('ProfileScreenEdit')}
+                //   backgroundColor="rgba(0,0,0,0)"
+                //   color="rgba(0,122,255,1)"
+                // />,
+
+
+                // <Button
+                //   title="Hello"
+                //   onPress={() => navigation.navigate('ProfileScreenEdit')}
+                //   backgroundColor="rgba(0,0,0,0)"
+                //   color="rgba(0,122,255,1)"
+                // />
+              );
+
+
+            },
+
+            headerLeft: props => <ActionBarIcon {...props} />,
+
+          }}
+          />
+          <Stack.Screen name="Aboutus" component={Aboutus} />
           <Stack.Screen
             name="ResetPasswordScreen"
             component={ResetPasswordScreen}
           />
+          <Stack.Screen name="Profile" component={Profile} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
@@ -395,10 +431,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-   },
-   button: {
-     marginEnd:5,
-     backgroundColor: 'green'
+  },
+  button: {
+    marginEnd: 5,
+    backgroundColor: 'green'
   }
 });
 
